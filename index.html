@@ -49,12 +49,7 @@
                             <div class="video-container">
                                 <div class="live-badge">LIVE</div>
                                 <div class="viewer-count"><i class="fas fa-eye"></i> 2,345</div>
-                                <iframe 
-                                    src="https://www.youtube.com/embed/OZfu1yKS7TY?autoplay=0&rel=0&modestbranding=1" 
-                                    frameborder="0" 
-                                    allowfullscreen
-                                    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture">
-                                </iframe>
+                            <video style="height: 100% !important;" id="video" controls autoplay width="640" height="360"></video>
                                 <div class="video-info">
                                     <h3>CLB GÀ CHỌI LIVE XỔ GÀ 18H30 HÀNG NGÀY</h3>
                                     <p class="phone-number">0393.835.679</p>
@@ -290,6 +285,23 @@
         </div>
     </div>
 
+    <script src="https://cdn.jsdelivr.net/npm/hls.js@latest"></script>
+  <script>
+    const video = document.getElementById('video');
+    const streamURL = 'https://tfol1gr3uomttgr31hctw8yzd1ptppi1zo4mdphzgg3dqfizgk7a.100ycdn.com/mexico.cdn-new.online/today/thomo.m3u8?wsSession=8892b4204fac789d9303c49c-175610737327465&wsIPSercert=709dbccb5f321d2c3e2ab862f350b8fb&wsiphost=local&wsBindIP=1';
+
+    if (Hls.isSupported()) {
+      const hls = new Hls({ liveDurationInfinity: true }); // chế độ live
+      hls.loadSource(streamURL);
+      hls.attachMedia(video);
+      hls.on(Hls.Events.ERROR, (event, data) => {
+        console.error("Lỗi HLS:", data);
+      });
+    } else if (video.canPlayType('application/vnd.apple.mpegurl')) {
+      // Safari hỗ trợ HLS sẵn
+      video.src = streamURL;
+    }
+  </script>
     <script src="script.js"></script>
 </body>
 </html>
